@@ -1,4 +1,4 @@
-package bhatt;
+package consolegame;
 
 import java.util.ArrayList;
 import java.util.Arrays;
