@@ -6,12 +6,12 @@ import java.io.InputStreamReader;
 
 /**
  * 
- * GCD.java Calcualte the greatest common denominator Mar 29, 2017
+ * GCD.java Calcualte the greatest common factor Mar 29, 2017
  * 
  * @author Rishab Bhatt
  *
  */
-public class GCD {
+public class GCF {
 
 	public static void main(String[] args) throws NumberFormatException, IOException {
 
@@ -23,19 +23,21 @@ public class GCD {
 		System.out.print("Please enter the second number: ");
 		int num2 = Integer.parseInt(in.readLine());
 
-		System.out.println("The Greatest Common Denominator is " + calculateGCD(num1, num2));
+		System.out.println("The Greatest Common Denominator is " + calculateGCF(num1, num2));
 
 	}
 
 	/**
-	 * Calculate the Greatest Common Denominator Keep doing it until the second
+	 * Calculate the Greatest Common Factor Keep doing it until the second
 	 * number is 0
+	 * 
+	 * Recursion is my friend
 	 * 
 	 * @param num1
 	 * @param num2
 	 * @return
 	 */
-	public static int calculateGCD(int num1, int num2) {
+	public static int calculateGCF(int num1, int num2) {
 
 		// If the second number is a 0..
 		if (num2 == 0)
@@ -56,7 +58,7 @@ public class GCD {
 		// We do a recursive call until number 2 is 0 which means we have found
 		// the GCD
 
-		return calculateGCD(num2, num1 % num2);
+		return calculateGCF(num2, num1 % num2);
 	}
 
 }
