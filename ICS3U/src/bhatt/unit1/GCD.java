@@ -6,9 +6,8 @@ import java.io.InputStreamReader;
 
 /**
  * 
- * GCD.java
- * Calcualte the greatest common denominator
- * Mar 29, 2017
+ * GCD.java Calcualte the greatest common denominator Mar 29, 2017
+ * 
  * @author Rishab Bhatt
  *
  */
@@ -29,19 +28,34 @@ public class GCD {
 	}
 
 	/**
-	 * Calculate the Greatest Common Denominator
-	 * Keep doing it until the second number is 0
+	 * Calculate the Greatest Common Denominator Keep doing it until the second
+	 * number is 0
+	 * 
 	 * @param num1
 	 * @param num2
 	 * @return
 	 */
 	public static int calculateGCD(int num1, int num2) {
+
 		// If the second number is a 0..
 		if (num2 == 0)
 			return num1;
-		
+
+		// 2, 4
+
+		// 4, 2
+
+		// 2, 0
+
+		// Since num2 is 0, return num1 which is the GCD
+
+		// System.out.println("Number 1: " + num1);
+		// System.out.println("Number 2: " + num2);
+
 		// Let's do recursion to do the same thing.. Much cleaner and faster
-		// We do a recursive call until number 2 is 0 which means we have found the GCD
+		// We do a recursive call until number 2 is 0 which means we have found
+		// the GCD
+
 		return calculateGCD(num2, num1 % num2);
 	}
 
