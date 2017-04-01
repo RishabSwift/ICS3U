@@ -24,7 +24,6 @@ public class GCF {
 		int num2 = Integer.parseInt(in.readLine());
 
 		System.out.println("The Greatest Common Denominator is " + calculateGCF(num1, num2));
-
 	}
 
 	/**
