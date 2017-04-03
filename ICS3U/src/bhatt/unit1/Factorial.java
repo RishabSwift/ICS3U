@@ -27,8 +27,8 @@ public class Factorial {
 
 	/**
 	 * Calcualte factorial of a number
-	 * @param num
-	 * @return
+	 * @param num The number to find the factorial
+	 * @return The factorial of the given number
 	 */
 	public static long calculateFactorial(long num) {
 

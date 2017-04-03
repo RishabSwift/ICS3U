@@ -39,8 +39,8 @@ public class HighestNumber {
 	/**
 	 * Get the maximum number from an array of numbers
 	 * 
-	 * @param num
-	 * @return
+	 * @param num The array containing the numbers
+	 * @return The maximum number from the num array
 	 */
 	public static int getMaxNumber(int[] num) {
 		int maxNum = num[0];

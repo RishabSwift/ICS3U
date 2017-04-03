@@ -5,8 +5,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 /**
- * 
- * GCD.java Calcualte the greatest common factor Mar 29, 2017
+ * GCF.java 
+ * Calculate the greatest common factor 
+ * Mar 29, 2017
  * 
  * @author Rishab Bhatt
  *
@@ -23,9 +24,30 @@ public class GCF {
 		System.out.print("Please enter the second number: ");
 		int num2 = Integer.parseInt(in.readLine());
 
-		System.out.println("The Greatest Common Denominator is " + calculateGCF(num1, num2));
+		System.out.println("The Greatest Common Denominator is " + calculateGcfUsingLoop(num1, num2));
 	}
 
+
+	/**
+	 * Calculate the greatest common factor without using recursion..
+	 * @param num1 The first number
+	 * @param num2 The second number
+	 * @return The GCF of two numbers
+	 */
+	public static int calculateGcfUsingLoop(int num1, int num2) {
+		
+		// Only true if num1 is not 0
+		while (num1 != 0) {
+			if (num1 >= num2)
+				num1 -= num2;
+			else
+				num2 -= num1;
+
+		}
+
+		return num1 == 0 ? num2 : num1;
+	}
+	
 	/**
 	 * Calculate the Greatest Common Factor Keep doing it until the second
 	 * number is 0
@@ -59,5 +81,7 @@ public class GCF {
 
 		return calculateGCF(num2, num1 % num2);
 	}
+
+
 
 }

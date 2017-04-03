@@ -4,8 +4,22 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+/**
+ * SumDigits.java
+ * Find the total sum of digits
+ * Monday, April 3, 2017
+ * @author rishabbhatt
+ *
+ */
 public class SumDigits {
 
+	
+	/**
+	 * 
+	 * @param args
+	 * @throws NumberFormatException
+	 * @throws IOException
+	 */
 	public static void main(String[] args) throws NumberFormatException, IOException {
 		
 		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
@@ -20,8 +34,8 @@ public class SumDigits {
 
 	/**
 	 * Get the total sum of digits
-	 * @param number
-	 * @return
+	 * @param number The given number to find the sum of digits
+	 * @return The sum of digits
 	 */
 	public static int getSumOfDigits(int number) {
 		int sum = 0;
