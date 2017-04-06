@@ -3,11 +3,13 @@ package bhatt.unit1;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Scanner;
 
 /**
- * 
- * HighestNumber.java This program finds out the highest number given an array
- * of numbers. 
+ *
+ * HighestNumber.java
+ *
+ * This program finds out the highest number given an array of numbers.
  * 
  * March 29, 2017
  * @author Rishab Bhatt
@@ -19,11 +21,13 @@ public class HighestNumber {
 
 		
 		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-						
-		System.out.println("How many numbers do you want to enter?");
+
+
+        System.out.println("How many numbers do you want to enter?");
 
 		int maxNum = Integer.parseInt(in.readLine());
-		int numbers[] = new int[maxNum];
+
+        int numbers[] = new int[maxNum];
 
 		System.out.println("Start entering " + maxNum + " numbers");
 
