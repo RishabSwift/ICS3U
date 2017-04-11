@@ -3,6 +3,12 @@ package bhatt.unit1;
 import java.io.BufferedReader;
 import java.io.FileReader;
 
+/**
+ * This algorithm is the luhn algorithm
+ * TheLuhnAlgorithm.java
+ * Rishab, Ian and Tushar
+ * April 11 2017
+ */
 public class TheLuhnAlgorithm {
 
     public static void main(String[] args) {
