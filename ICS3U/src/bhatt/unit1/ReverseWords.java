@@ -26,14 +26,14 @@ public class ReverseWords {
             String endOfWord = "";
 
             // If you don't want to use regex.. this is simpler
-//            word.contains(".") || word.contains("!") || word.contains("?")
-            if (word.matches("[^.!?\\s][^.!?]*(?:[.!?](?!['\"]?\\s|$)[^.!?]*)*[.!?]?['\"]?(?=\\s|$)")) {
+            if (word.contains(".") || word.contains("!") || word.contains("?")) {
+//            if (word.matches("[^.!?\\s][^.!?]*(?:[.!?](?!['\"]?\\s|$)[^.!?]*)*[.!?]?['\"]?(?=\\s|$)")) {
                 String punctuation = Character.toString(word.charAt(word.length() - 1));
                 word = word.replace(punctuation, "");
                 endOfWord += punctuation;
             }
 
-            // If the word has a upper case or something...
+            // If the word has a upper case or something... 
             if (Character.isUpperCase(word.charAt(0))) {
                 // Set the first letter to lower case
                 char firstLetter = Character.toLowerCase(word.charAt(0));
