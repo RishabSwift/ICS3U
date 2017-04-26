@@ -54,27 +54,7 @@ public class TheLuhnAlgorithm {
         } catch (Exception e) {
             System.out.println("Error while reading file line by line:" + e.getMessage());
         }
-
-
-//
-//        Scanner scan = new Scanner(System.in);
-//        String num = scan.next();
-//
-//        int validNum = 0;
-//        for (int i = 0; i < 10; i++) {
-//
-////            System.out.println("---------- CHECKING CHECKDIGIT " + i + "-----------");
-//            boolean valid = validate(num, String.valueOf(i));
-//            if (valid) {
-//                validNum = i;
-////                System.out.println("!!!!!Valid number: " + validNum);
-//            }
-//        }
-//
-//        System.out.println(validNum);
-
     }
-
 
     private static boolean validate(String baseNumber, String checkDigit) {
 
@@ -114,9 +94,6 @@ public class TheLuhnAlgorithm {
             // reverse the second Digit
             secondDigit = !secondDigit;
         }
-
-//        System.out.println("----------");
-//        System.out.println("Sum: " + sum);
         return sum % 10 == 0;
     }
 

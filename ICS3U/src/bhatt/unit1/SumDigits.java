@@ -8,44 +8,44 @@ import java.io.InputStreamReader;
  * SumDigits.java
  * Find the total sum of digits
  * Monday, April 3, 2017
- * @author rishabbhatt
  *
+ * @author rishabbhatt
  */
 public class SumDigits {
 
-	
-	/**
-	 * 
-	 * @param args
-	 * @throws NumberFormatException
-	 * @throws IOException
-	 */
-	public static void main(String[] args) throws NumberFormatException, IOException {
-		
-		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-		
-		System.out.print("Please enter a number: ");
-		int number = Integer.parseInt(in.readLine());
-		
-		System.out.println("The sum of the digits in " + number + " is " + getSumOfDigits(number));
-		
 
-	}
+    /**
+     * @param args
+     * @throws NumberFormatException
+     * @throws IOException
+     */
+    public static void main(String[] args) throws NumberFormatException, IOException {
 
-	/**
-	 * Get the total sum of digits
-	 * @param number The given number to find the sum of digits
-	 * @return The sum of digits
-	 */
-	public static int getSumOfDigits(int number) {
-		int sum = 0;
+        BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 
-		while (number > 0) {
-			sum += number % 10;
-			number /= 10;
-		}
+        System.out.print("Please enter a number: ");
+        int number = Integer.parseInt(in.readLine());
 
-		return sum;
-	}
+        System.out.println("The sum of the digits in " + number + " is " + getSumOfDigits(number));
+
+
+    }
+
+    /**
+     * Get the total sum of digits
+     *
+     * @param number The given number to find the sum of digits
+     * @return The sum of digits
+     */
+    private static int getSumOfDigits(int number) {
+        int sum = 0;
+
+        while (number > 0) {
+            sum += number % 10;
+            number /= 10;
+        }
+
+        return sum;
+    }
 
 }

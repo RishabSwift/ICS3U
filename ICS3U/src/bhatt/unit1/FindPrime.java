@@ -29,10 +29,10 @@ public class FindPrime {
     /**
      * Check if a number is prime
      *
-     * @param num
-     * @return
+     * @param num Number to check if prime
+     * @return boolean
      */
-    public static boolean isPrime(int num) {
+    private static boolean isPrime(int num) {
         // If number is 0 or 1 obviously not prime
         if (num <= 1)
             return false;

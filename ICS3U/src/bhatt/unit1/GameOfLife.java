@@ -1,8 +1,8 @@
 package bhatt.unit1;
 
 /*
- * Life.java
- * This is the Game of Life program devised by John Conway. It loops over generations and finds the alive and dead cells
+ * GameOfLife.java
+ * This is the Game of GameOfLife program devised by John Conway. It loops over generations and finds the alive and dead cells
  * April 26, 2017
  *
  * @author Rishab Bhatt
@@ -10,26 +10,33 @@ package bhatt.unit1;
 
 import java.util.Scanner;
 
-public class Life {
+public class GameOfLife {
 
-    private final int xLength = 10;
+    private final int xLength = 5;
     private final int yLength = 5;
     private boolean coordinates[][] = new boolean[xLength][yLength];
     private int generations, currentGeneration;
 
-    private Life(int generations) {
+    /**
+     * GameOfLife constructor - Accepts the generations
+     *
+     * @param generations Total Generations
+     */
+    private GameOfLife(int generations) {
         this.generations = generations;
     }
 
     public static void main(String[] args) {
 
-        Life life = new Life(10);
+        // New life
+        GameOfLife life = new GameOfLife(10);
         life.getInput();
 
         // Print the start
         System.out.println("Given Input:");
         life.printCoordinates(life.coordinates);
 
+        // Loop through each generation
         for (int i = 1; i <= life.generations; i++) {
             life.currentGeneration = i;
             life.newGeneration();
@@ -38,6 +45,7 @@ public class Life {
 
     /**
      * Print the coordinates
+     * "x" if it's alive; "o" if dead
      *
      * @param coordinates Coordinate
      */
@@ -57,13 +65,16 @@ public class Life {
      */
     private void newGeneration() {
 
+        // temporary variable to store new coordinates for the new generation
         boolean[][] newCoordinates = new boolean[xLength][yLength];
 
         int numberOfAliveCells = 0;
 
+        // Loop through the 2D array
         for (int row = 0; row < coordinates.length; row++) {
             for (int column = 0; column < coordinates[row].length; column++) {
-                // If cell is alive set the value to 1 or else 0
+
+                // If the current cell is alive, it will stay alive in the new generation
                 if (isCellAlive(row, column)) {
                     newCoordinates[row][column] = true;
                     numberOfAliveCells++;
@@ -79,6 +90,7 @@ public class Life {
             return;
         }
 
+        // set the coordinates to new coordinates because it's a new generation
         coordinates = newCoordinates;
 
         // Print coordinates
@@ -96,16 +108,15 @@ public class Life {
      */
     private boolean isCellAlive(int row, int column) {
 
-
         // If the current cell is alive
         boolean cellAlive = coordinates[row][column];
 
         int numberOfNeighbours = 0;
+
         // check one to the right of column
         if (coordinates[row].length > column + 1) {
             if (coordinates[row][column + 1]) {
                 numberOfNeighbours++;
-
             }
         }
         // check one to the left of column
@@ -171,7 +182,7 @@ public class Life {
 
     /**
      * Get input from user using scanner
-     * THe input will be coordinates like (x, y)
+     * The input will be coordinates like (x, y)
      */
     private void getInput() {
 
@@ -203,10 +214,6 @@ public class Life {
             } else {
                 coordinates[x][y] = true;
             }
-
         }
-
-
     }
-
 }
