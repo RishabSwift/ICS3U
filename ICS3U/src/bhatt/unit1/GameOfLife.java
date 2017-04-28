@@ -19,19 +19,13 @@ public class GameOfLife {
     private int numberOfAliveCells = 0;
     private Scanner scan = new Scanner(System.in);
 
-    /**
-     * GameOfLife constructor - Accepts the total number of generations
-     *
-     * @param generations Total Generations
-     */
-    private GameOfLife(int generations) {
-        this.generations = generations;
-    }
-
 
     public static void main(String[] args) {
         // New life
-        GameOfLife life = new GameOfLife(5);
+        GameOfLife life = new GameOfLife();
+
+        life.generations = 1;
+
         life.getInput();
 
         // Print the start
