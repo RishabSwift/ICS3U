@@ -16,9 +16,11 @@ public class GameOfLife {
     private final int yLength = 5;
     private boolean coordinates[][] = new boolean[xLength][yLength];
     private int generations, currentGeneration;
+    private int numberOfAliveCells = 0;
+    private Scanner scan = new Scanner(System.in);
 
     /**
-     * GameOfLife constructor - Accepts the generations
+     * GameOfLife constructor - Accepts the total number of generations
      *
      * @param generations Total Generations
      */
@@ -26,10 +28,10 @@ public class GameOfLife {
         this.generations = generations;
     }
 
-    public static void main(String[] args) {
 
+    public static void main(String[] args) {
         // New life
-        GameOfLife life = new GameOfLife(10);
+        GameOfLife life = new GameOfLife(5);
         life.getInput();
 
         // Print the start
@@ -38,8 +40,50 @@ public class GameOfLife {
 
         // Loop through each generation
         for (int i = 1; i <= life.generations; i++) {
+
             life.currentGeneration = i;
             life.newGeneration();
+
+            // If there are no alive cells, we break out of the loop and forget about the other generations
+            if (life.numberOfAliveCells == 0) {
+                System.out.println("All cells are dead by Generation " + life.currentGeneration);
+                break;
+            }
+
+            // Ask every time they wanna continue with the next generation
+            if (life.userWantsNewGeneration()) {
+                life.generations++;
+            } else {
+                break;
+            }
+
+        }
+
+        System.out.printf("You made it to generation #%d", life.currentGeneration);
+    }
+
+    /**
+     * Ask user if they want to continue with the next generation
+     *
+     * @return boolean
+     */
+    private boolean userWantsNewGeneration() {
+
+        String question = "Do you want to continue with the next generation? (yes/no)";
+        System.out.println(question);
+        String answer = scan.next();
+
+        // Make sure they enter "yes", "no" and nothing else...
+        while (true) {
+            if (answer.equalsIgnoreCase("yes")) {
+                return true;
+            }
+            if (answer.equalsIgnoreCase("no")) {
+                return false;
+            }
+
+            System.out.println("Oops! " + question);
+            answer = scan.next();
         }
     }
 
@@ -68,7 +112,7 @@ public class GameOfLife {
         // temporary variable to store new coordinates for the new generation
         boolean[][] newCoordinates = new boolean[xLength][yLength];
 
-        int numberOfAliveCells = 0;
+        numberOfAliveCells = 0;
 
         // Loop through the 2D array
         for (int row = 0; row < coordinates.length; row++) {
@@ -82,12 +126,6 @@ public class GameOfLife {
                     newCoordinates[row][column] = false;
                 }
             }
-        }
-
-        // If there are no alive cells
-        if (numberOfAliveCells == 0) {
-            System.out.println("All cells are dead by Generation " + currentGeneration);
-            return;
         }
 
         // set the coordinates to new coordinates because it's a new generation
@@ -186,8 +224,6 @@ public class GameOfLife {
      */
     private void getInput() {
 
-        Scanner scan = new Scanner(System.in);
-
         System.out.println("Enter the coordinates separated by space (e.g. \"5 30\").");
         System.out.println("Type \"stop\" to end.");
 
@@ -204,6 +240,13 @@ public class GameOfLife {
             // Get the y value and trim it
             String _y = scan.next().trim();
 
+            // If the input is not a number, they have entered junk
+            while (!isNumber(_x) || !isNumber(_y)) {
+                System.out.println("Please enter a number instead of a string!");
+                _x = scan.next().trim();
+                _y = scan.next().trim();
+            }
+
             // Parse the input
             int x = Integer.parseInt(_x);
             int y = Integer.parseInt(_y);
@@ -215,5 +258,14 @@ public class GameOfLife {
                 coordinates[x][y] = true;
             }
         }
+    }
+
+    /**
+     * Check if a string is a number or not
+     *
+     * @param string String
+     */
+    private boolean isNumber(String string) {
+        return string.matches(".*\\d+.*");
     }
 }
