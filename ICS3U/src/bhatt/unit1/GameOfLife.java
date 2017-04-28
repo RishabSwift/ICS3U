@@ -12,8 +12,8 @@ import java.util.Scanner;
 
 public class GameOfLife {
 
-    private final int xLength = 5;
-    private final int yLength = 5;
+    private final int xLength = 20;
+    private final int yLength = 20;
     private boolean coordinates[][] = new boolean[xLength][yLength];
     private int generations, currentGeneration;
     private int numberOfAliveCells = 0;
