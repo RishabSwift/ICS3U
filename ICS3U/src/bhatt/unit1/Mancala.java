@@ -10,7 +10,6 @@ package bhatt.unit1;
 
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Scanner;
 
 public class Mancala {
@@ -23,28 +22,41 @@ public class Mancala {
     private int currentPosition = 0;
     private boolean isFirstPlayer;
     private boolean gameOver = false;
+    private boolean replay = false;
 
     public static void main(String[] args) {
 
         Mancala game = new Mancala();
         game.reset();
         game.printBoard();
-        game.getInput();
-        game.moveStones();
+        game.play();
     }
 
-    public void play() {
+    private void play() {
+
+        isFirstPlayer = true;
 
         while (!gameOver) {
-
+            getInput();
             moveStones();
+
+            // If they can replay
+            while (replay) {
+                System.out.println("You get to go again!");
+                getInput();
+                moveStones();
+            }
+
+            // Update the user's turn
+            updateUserTurn();
         }
     }
 
     /**
      * Move current player's stones from one slot to another, depending on the input and the hole
      */
-    public void moveStones() {
+    private void moveStones() {
+
         int[] currentPlayerBlock = getCurrentPlayerBlock();
         int[] otherPlayerBlock = getOtherPlayerBlock();
 
@@ -54,41 +66,92 @@ public class Mancala {
         // Set the current stone count to 0
         updateHole(currentPlayerBlock, input, 0);
 
+
         // The current block being played
         int[] playingBlock = currentPlayerBlock;
         int current = input + 1;
 
+//        boolean currentSide = true;
+        boolean ownSide = true;
+        replay = false;
+
         // Start spreading the stones in each slot
         while (totalStonesInPosition > 0) {
 
-            totalStonesInPosition--;
 
-            // Increase each slot with 1
+            // If you are on your own side and land on an empty one, you get their opposite
+            if (ownSide && totalStonesInPosition == 1 && currentPlayerBlock[current] == 0) {
+                // If we are not in the well and if their side is not empty
+                if (current < 6 && otherPlayerBlock[6 - current] > 0) {
+
+                    // Steal all their pieces and put them in our well, as well as one that we just put in our own slot
+                    playingBlock[6] += otherPlayerBlock[5 - current] + 1;
+
+                    // Set their pieces to 0 in slot opposite to ours
+                    otherPlayerBlock[5 - current] = 0;
+
+                    // Exit from the loop
+                    break;
+                }
+            }
+
+            // Update total stones and add 1 to the playing block
+            totalStonesInPosition--;
             playingBlock[current]++;
 
-            // If you are here...       |_ _ _ _ _ _ |  Player B
-            //                          |             x|
-            //                          |_ _ _ _ _ _|   Player A
-            // ... we need to go to the other person's side if we scored in our bin
-            if (current == 6) {
-                playingBlock = getOtherPlayerBlock();
+            // If you are on your own side and put the last one on your own well, Replay!
+            if (ownSide && current == 6 && totalStonesInPosition == 0) {
+                replay = true;
+                break;
+            }
+
+            // If you are on your own side, and  put one stone on your own well and have more remaining,
+            // You must switch to the other side
+            else if (ownSide && current == 6) {
+                ownSide = false;
                 current = 0;
-            } else {
+                playingBlock = otherPlayerBlock;
+
+
+                // If you are on your own side and go lap over theirs, you must break out without touching their final score
+            } else if (!ownSide && current == 5) {
+                ownSide = true;
+                current = 0;
+                playingBlock = currentPlayerBlock;
+            }
+
+
+            // If you are on your own side, just move over
+            else {
                 current++;
             }
-            System.out.println("Current: " + current);
+
         }
 
         updateScore();
-
         printBoard();
-
     }
+
+    /**
+     * Reset the board
+     */
+    private void reset() {
+
+        // Reset the board
+        firstPlayerBoard = new int[]{4, 4, 4, 4, 4, 4, 0};
+        secondPlayerBoard = new int[]{4, 4, 4, 4, 4, 4, 0};
+
+        isFirstPlayer = false;
+
+        // Set player score to 0
+        updateScore();
+    }
+
 
     /**
      * Get user input
      */
-    public void getInput() {
+    private void getInput() {
 
         System.out.printf("\nPlayer %s: ", isFirstPlayer ? "A" : "B");
 
@@ -107,14 +170,6 @@ public class Mancala {
             System.out.println();
         }
 
-        // Check if they entered a value where there are stones in the hole
-        if (getStonesInHole(letter) == 0) {
-            System.out.println();
-            System.out.print("You have 0 stones in this slot. Please choose another!");
-            System.out.println();
-            getInput();
-        }
-
         // Set input to letter
         input = getCorrespondingPosition(letter);
 
@@ -123,24 +178,14 @@ public class Mancala {
             input = 7 - (input + 2);
         }
 
-        // Reverse the player so it's the other player's turn
-//        updateTurn();
-    }
+        // Check if they entered a value where there are stones in the hole
+        if (getStonesInHole(input) == 0) {
+            System.out.println();
+            System.out.print("You have 0 stones in this slot. Please choose another!");
+            System.out.println();
+            getInput();
+        }
 
-
-    /**
-     * Reset the board
-     */
-    public void reset() {
-
-        // Reset the board
-        firstPlayerBoard = new int[]{4, 4, 4, 4, 4, 4, 0};
-        secondPlayerBoard = new int[]{4, 4, 4, 4, 4, 4, 0};
-
-        isFirstPlayer = true;
-
-        // Set player score to 0
-        updateScore();
     }
 
 
@@ -149,7 +194,7 @@ public class Mancala {
      *
      * @return Current Player Block
      */
-    public int[] getCurrentPlayerBlock() {
+    private int[] getCurrentPlayerBlock() {
         return isFirstPlayer ? firstPlayerBoard : secondPlayerBoard;
     }
 
@@ -158,7 +203,7 @@ public class Mancala {
      *
      * @return Other Player Block
      */
-    public int[] getOtherPlayerBlock() {
+    private int[] getOtherPlayerBlock() {
         return isFirstPlayer ? secondPlayerBoard : firstPlayerBoard;
     }
 
@@ -166,7 +211,7 @@ public class Mancala {
     /**
      * Update the user's turn
      */
-    public void updateUserTurn() {
+    private void updateUserTurn() {
         isFirstPlayer = !isFirstPlayer;
     }
 
@@ -176,7 +221,7 @@ public class Mancala {
      *
      * @param letter The letter between A-F
      */
-    public int getCorrespondingPosition(String letter) {
+    private int getCorrespondingPosition(String letter) {
 
         String letters = "ABCDEF";
         currentPosition = letters.indexOf(letter.toUpperCase());
@@ -187,11 +232,11 @@ public class Mancala {
      * Get the number of stones in a given hole using the position
      * USE THE GIVEN BOARD
      *
-     * @param board
-     * @param position
-     * @return
+     * @param board Game board
+     * @param position The position's index
+     * @return Total stones in hole
      */
-    public int getStonesInHole(int[] board, int position) {
+    private int getStonesInHole(int[] board, int position) {
         return board[position];
     }
 
@@ -199,21 +244,21 @@ public class Mancala {
      * Get the number of stones in a given hole using the letter position
      * USE THE GIVEN BOARD
      *
-     * @param board
-     * @param position
-     * @return
+     * @param board Game board
+     * @param position The position's index
+     * @return Total stones in hole
      */
-    public int getStonesInHole(int[] board, String position) {
+    private int getStonesInHole(int[] board, String position) {
         return board[getCorrespondingPosition(position)];
     }
 
     /**
      * Get the number of stones in the current player's hole using the number position
      *
-     * @param position
-     * @return
+     * @param position Index using int
+     * @return stones in current player's hole
      */
-    public int getStonesInHole(int position) {
+    private int getStonesInHole(int position) {
         int[] board = getCurrentPlayerBlock();
         return getStonesInHole(board, position);
     }
@@ -221,10 +266,10 @@ public class Mancala {
     /**
      * Get the number of stones in the current player's hole using the letter
      *
-     * @param letter
-     * @return
+     * @param letter Index using letter
+     * @return stones in current player's hole
      */
-    public int getStonesInHole(String letter) {
+    private int getStonesInHole(String letter) {
         int[] board = getCurrentPlayerBlock();
         return getStonesInHole(board, letter);
     }
@@ -232,7 +277,7 @@ public class Mancala {
     /**
      * Update user's total score based on how many stones they have in the well
      */
-    public void updateScore() {
+    private void updateScore() {
         firstPlayerScore = firstPlayerBoard[6];
         secondPlayerScore = secondPlayerBoard[6];
     }
@@ -244,28 +289,17 @@ public class Mancala {
      * @param index     The index to update
      * @param newNumber The new number to update old number with
      */
-    public void updateHole(int[] board, int index, int newNumber) {
+    private void updateHole(int[] board, int index, int newNumber) {
         board[index] = newNumber;
     }
 
-//    /**
-//     * Update a hole in a given board with the number of stone to add
-//     *
-//     * @param board       The player's board
-//     * @param numberToAdd The number of stones to add to a specific board
-//     */
-//    public void updateHole(int[] board, int numberToAdd) {
-//        for (int i = 0; i < board.length; i++) {
-//            board[i] += numberToAdd;
-//        }
-//    }
 
     /**
      * Print the board with updated results
      */
-    public void printBoard() {
+    private void printBoard() {
 
-        String padding = "  ";
+        String padding = "   ";
         String firstPlayer = "";
         String secondPlayer = "";
         String footer = "A B C D E F".replaceAll(" ", padding);
@@ -289,7 +323,7 @@ public class Mancala {
 
         // Store the second players board in a string, going backwards and skipping the first "0"
         for (int i = 0; i < firstPlayerBoard.length - 1; i++) {
-            firstPlayer += firstPlayerBoard[i] + padding;
+            firstPlayer = firstPlayer + (firstPlayerBoard[i] + padding);
         }
 
 
@@ -310,11 +344,13 @@ public class Mancala {
         // Print the first players board (on the bottom)
         System.out.println(padding + firstPlayer + "     Player A");
 
+        System.out.println("  -----------------------");
+
         // Print the lettering
         System.out.println(padding + footer);
 
         // Blank lines below
-        System.out.println("\n\n\n");
+        System.out.println("\n\n");
 
     }
 
