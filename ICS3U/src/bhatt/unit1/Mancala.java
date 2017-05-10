@@ -1,5 +1,8 @@
 package bhatt.unit1;
 
+import java.util.Arrays;
+import java.util.Scanner;
+
 /*
  * Mancala.java
  * This program is a simple console game of Mancala
@@ -7,11 +10,6 @@ package bhatt.unit1;
  *
  * @author Rishab Bhatt
  */
-
-
-import java.util.Arrays;
-import java.util.Scanner;
-
 public class Mancala {
 
     private int[] firstPlayerBoard;
@@ -113,7 +111,6 @@ public class Mancala {
 
         // Start spreading the stones in each slot
         while (totalStonesInPosition > 0) {
-
 
             // If you are on your own side and land on an empty one, you get their opposite
             if (ownSide && totalStonesInPosition == 1 && currentPlayerBlock[current] == 0) {
@@ -256,7 +253,6 @@ public class Mancala {
             System.out.println();
             getInput();
         }
-
     }
 
 
@@ -392,7 +388,6 @@ public class Mancala {
                 firstPlayer += " ";
             }
         }
-
 
         // Initial extra lines
         System.out.println("\n\n");
