@@ -2,7 +2,7 @@ package bhatt.unit1;
 
 /*
  * Mancala.java
- * Program Description
+ * This program is a simple console game of Mancala
  * May 8, 2017
  *
  * @author Rishab Bhatt
@@ -19,11 +19,15 @@ public class Mancala {
     private int firstPlayerScore, secondPlayerScore;
 
     private int input = 0;
-    private int currentPosition = 0;
     private boolean isFirstPlayer;
     private boolean gameOver = false;
     private boolean replay = false;
 
+    /**
+     * Start the program
+     *
+     * @param args
+     */
     public static void main(String[] args) {
 
         Mancala game = new Mancala();
@@ -32,23 +36,54 @@ public class Mancala {
         game.play();
     }
 
+    /**
+     * Play the game
+     */
     private void play() {
 
         isFirstPlayer = true;
 
+        // Only continue if the game is not yet over
         while (!gameOver) {
             getInput();
             moveStones();
 
             // If they can replay
             while (replay) {
-                System.out.println("You get to go again!");
+                System.out.println("\nYou get to go again!");
                 getInput();
                 moveStones();
+
+                // Check if the game was over after replaying
+                if (isGameOver()) {
+                    gameOver = true;
+                    break;
+                }
+            }
+
+            // If the game is over, exit immediately
+            if (isGameOver()) {
+                gameOver = true;
+                break;
             }
 
             // Update the user's turn
             updateUserTurn();
+        }
+
+        // If the game was over...
+        if (gameOver) {
+            calculateRemainingStones();
+            System.out.println("\n\nGame Over!");
+            if (firstPlayerScore > secondPlayerScore) {
+                System.out.println("Player A Won!");
+            } else if (firstPlayerScore == secondPlayerScore) {
+                System.out.println("It's a tie!");
+            } else {
+                System.out.println("Player B Won!");
+            }
+
+            System.out.printf("\n\nPoints: \nPlayer A: %3d \nPlayer B: %3d", firstPlayerScore, secondPlayerScore);
         }
     }
 
@@ -71,7 +106,8 @@ public class Mancala {
         int[] playingBlock = currentPlayerBlock;
         int current = input + 1;
 
-//        boolean currentSide = true;
+
+        // 5
         boolean ownSide = true;
         replay = false;
 
@@ -113,19 +149,18 @@ public class Mancala {
                 playingBlock = otherPlayerBlock;
 
 
-                // If you are on your own side and go lap over theirs, you must break out without touching their final score
+                // If you are on your own side and go lap over theirs,
+                // you must break out without touching their final score
             } else if (!ownSide && current == 5) {
                 ownSide = true;
                 current = 0;
                 playingBlock = currentPlayerBlock;
             }
 
-
             // If you are on your own side, just move over
             else {
                 current++;
             }
-
         }
 
         updateScore();
@@ -138,8 +173,8 @@ public class Mancala {
     private void reset() {
 
         // Reset the board
-        firstPlayerBoard = new int[]{4, 4, 4, 4, 4, 4, 0};
         secondPlayerBoard = new int[]{4, 4, 4, 4, 4, 4, 0};
+        firstPlayerBoard = new int[]{4, 4, 4, 4, 4, 4, 0};
 
         isFirstPlayer = false;
 
@@ -147,6 +182,42 @@ public class Mancala {
         updateScore();
     }
 
+    /**
+     * If either of the players have 0 stones left to play, the game is done
+     *
+     * @return True if game is over
+     */
+    private boolean isGameOver() {
+        return isBoardEmpty(firstPlayerBoard) || isBoardEmpty(secondPlayerBoard);
+    }
+
+    /**
+     * Check if a board is empty
+     *
+     * @param playerBoard The player board to check if empty
+     * @return boolean, depending if the hole is empty
+     */
+    private boolean isBoardEmpty(int[] playerBoard) {
+        boolean none = true;
+        for (int i = 0; i < 6; i++) {
+            if (playerBoard[i] > 0) {
+                none = false;
+            }
+        }
+        return none;
+    }
+
+    /**
+     * Calculate the remaining stones and put them in the well
+     */
+    private void calculateRemainingStones() {
+        for (int i = 0; i < 6; i++) {
+            firstPlayerBoard[6] += firstPlayerBoard[i];
+            secondPlayerBoard[6] += secondPlayerBoard[i];
+        }
+        updateScore();
+        ;
+    }
 
     /**
      * Get user input
@@ -224,15 +295,14 @@ public class Mancala {
     private int getCorrespondingPosition(String letter) {
 
         String letters = "ABCDEF";
-        currentPosition = letters.indexOf(letter.toUpperCase());
-        return currentPosition;
+        return letters.indexOf(letter.toUpperCase());
     }
 
     /**
      * Get the number of stones in a given hole using the position
      * USE THE GIVEN BOARD
      *
-     * @param board Game board
+     * @param board    Game board
      * @param position The position's index
      * @return Total stones in hole
      */
@@ -244,7 +314,7 @@ public class Mancala {
      * Get the number of stones in a given hole using the letter position
      * USE THE GIVEN BOARD
      *
-     * @param board Game board
+     * @param board    Game board
      * @param position The position's index
      * @return Total stones in hole
      */
@@ -295,37 +365,37 @@ public class Mancala {
 
 
     /**
-     * Print the board with updated results
+     * Print the latest board
      */
     private void printBoard() {
 
-        String padding = "   ";
+        String padding = "  ";
         String firstPlayer = "";
         String secondPlayer = "";
-        String footer = "A B C D E F".replaceAll(" ", padding);
-
-
-        // Border Line
-//        for (int i = 0; i <= footer.length() * 2; i++) {
-//            System.out.print("-");
-//        }
-//
-//        for (int i = 0; i <= footer.length() * 2; i++) {
-//            if (i == footer.length() * 2 - 1) {
-//                System.out.print("|");
-//            }
-//        }
-
-        // Store the first players board in a string, going forwards and skipping the last "0"
-        for (int i = secondPlayerBoard.length - 2; i >= 0; i--) {
-            secondPlayer += secondPlayerBoard[i] + padding;
-        }
+        String footer = "A B C D E F".replaceAll(" ", padding + " ");
 
         // Store the second players board in a string, going backwards and skipping the first "0"
-        for (int i = 0; i < firstPlayerBoard.length - 1; i++) {
-            firstPlayer = firstPlayer + (firstPlayerBoard[i] + padding);
+        for (int i = secondPlayerBoard.length - 2; i >= 0; i--) {
+            secondPlayer += secondPlayerBoard[i] + padding;
+
+            // Even the number of spaces. For e.g if there are 2 digits, then the spaces for the rest don't align so this fixes this
+            if (String.valueOf(secondPlayerBoard[i]).length() == 1) {
+                secondPlayer += " ";
+            }
         }
 
+        // Store the first players board in a string, going forwards and skipping the last "0"
+        for (int i = 0; i < firstPlayerBoard.length - 1; i++) {
+            // Even the number of spaces. For e.g if there are 2 digits, then the spaces for the rest don't align so this fixes this
+            firstPlayer = firstPlayer + (firstPlayerBoard[i] + padding);
+            if (String.valueOf(firstPlayerBoard[i]).length() == 1) {
+                firstPlayer += " ";
+            }
+        }
+
+
+        // Initial extra lines
+        System.out.println("\n\n");
 
         // Print the second players board (on the top)
         System.out.println(padding + secondPlayer + "     Player B");
@@ -348,9 +418,6 @@ public class Mancala {
 
         // Print the lettering
         System.out.println(padding + footer);
-
-        // Blank lines below
-        System.out.println("\n\n");
 
     }
 
