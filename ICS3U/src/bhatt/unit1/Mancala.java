@@ -170,8 +170,8 @@ public class Mancala {
     private void reset() {
 
         // Reset the board
-        secondPlayerBoard = new int[]{4, 4, 4, 4, 4, 4, 0};
-        firstPlayerBoard = new int[]{4, 4, 4, 4, 4, 4, 0};
+        secondPlayerBoard = new int[]{3, 3, 3, 3, 3, 3, 0};
+        firstPlayerBoard = new int[]{3, 3, 3, 3, 3, 3, 0};
 
         isFirstPlayer = false;
 
