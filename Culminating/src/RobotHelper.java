@@ -1,28 +1,20 @@
-package bhatt.culminating;
-
-import lejos.nxt.LCD;
-import lejos.nxt.LightSensor;
 import lejos.nxt.Motor;
 import lejos.nxt.SensorPort;
 import lejos.nxt.TouchSensor;
+import lejos.nxt.addon.CompassHTSensor;
 
-public interface RobotHelper {
+/**
+ * RobotHelper.java
+ * The main robot helper 
+ * <p>
+ * June 16 2017
+ *
+ * @author Rishab Bhatt
+ */
+public class RobotHelper {
 
-	boolean DEBUG_MODE = true;
-	
-	/**
-	 * Get the color sensor value
-	 * @return
-	 */
-	public static int getColorSensorValue() {
-		LightSensor light = new LightSensor(SensorPort.S4);
-		
-		if (DEBUG_MODE) {
-			LCD.drawInt(light.readNormalizedValue(), 4, 0, 1);
-		}
-		
-		return light.readNormalizedValue();
-	}
+	public static TouchSensor touchSensor = new TouchSensor(SensorPort.S1);
+	public static CompassHTSensor compass = new CompassHTSensor(SensorPort.S2);
 	
 
 	/**
@@ -48,10 +40,9 @@ public interface RobotHelper {
 	
 	/**
 	 * Check if the touch sensor is pressed
-	 * @return boolean
+	 * @return true 
 	 */
 	public static boolean isTouchSensorPressed() {
-		TouchSensor touchSensor = new TouchSensor(SensorPort.S2);
 		return touchSensor.isPressed();
 	}
 	
@@ -79,4 +70,17 @@ public interface RobotHelper {
 		Motor.A.backward();
 		Motor.B.backward();
 	}
+	
+	/**
+	 * Rotate to a specific angle
+	 * @param angle
+	 */
+	public static void rotateToAngle(int angle) {
+		compass.resetCartesianZero();
+		// todo angle for error	: change the range
+		while (compass.getDegreesCartesian() != angle) {
+			
+		}
+	}
+	
 }

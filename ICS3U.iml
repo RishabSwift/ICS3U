@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="JAVA_MODULE" version="4">
+  <component name="EclipseModuleManager">
+    <libelement value="jar://$USER_HOME$/Documents/School/Runnymede C.I./Grade 11/Tech/hsa_new.jar!/" />
+    <src_description expected_position="0">
+      <src_folder value="file://$MODULE_DIR$/ICS3U/ICS3U/src" expected_position="0" />
+    </src_description>
+  </component>
+  <component name="NewModuleRootManager">
+    <output url="file://$MODULE_DIR$/ICS3U/ICS3U/bin" />
+    <exclude-output />
+    <content url="file://$MODULE_DIR$/ICS3U/ICS3U">
+      <sourceFolder url="file://$MODULE_DIR$/ICS3U/ICS3U/src" isTestSource="false" />
+    </content>
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="module-library">
+      <library name="hsa_new.jar">
+        <CLASSES>
+          <root url="jar://$USER_HOME$/Documents/School/Runnymede C.I./Grade 11/Tech/hsa_new.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+  </component>
+</module>
