@@ -7,7 +7,7 @@ import java.io.InputStreamReader;
 /**
  * Factorial.java
  * Calculate factorial given number
- * Mar 29, 2017
+ * Mar 29, 2017 
  *
  * @author Rishab Bhatt
  */
